@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			td{
+				border:1px solid #000000;
+			}
+			div{
+				width:200px;
+				height:200px;
+				background:red;
+				position:absolute;
+				display:none;
+			}
+		</style>
+	</head>
+	<body>
+		作者：<input type = "text" id = "txt" />
+		内容：<input type = "text" id = "txt2" />
+		发布时间：<input type = "text" id = "txt3" />
+		<input type = "button" id = "btn" value = "创建" />
+		<table id = "tab">
+			<tr><td>作者</td><td>内容</td><td>发布时间</td><td></td></tr>
+			<tr><td>xxx</td><td>xxx</td><td>xxx</td><td><a href = "#" class = "xq"/>详情</a><a href = "#" class = "sc"/>删除</a></td></tr>
+			<tr><td>xxx</td><td>xxx</td><td>xxx</td><td><a href = "#" class = "xq"/>详情</a><a href = "#" class = "sc"/>删除</a></td></tr>
+			<tr><td>xxx</td><td>xxx</td><td>xxx</td><td><a href = "#" class = "xq"/>详情</a><a href = "#" class = "sc"/>删除</a></td></tr>
+			<tr><td>xxx</td><td>xxx</td><td>xxx</td><td><a href = "#" class = "xq"/>详情</a><a href = "#" class = "sc"/>删除</a></td></tr>
+			<tr><td>xxx</td><td>xxx</td><td>xxx</td><td><a href = "#" class = "xq"/>详情</a><a href = "#" class = "sc"/>删除</a></td></tr>
+		</table>
+		<div id = "box"></div>
+	</body>
+	<script>
+		var txt1 = document.getElementById("txt");
+		var txt2 = document.getElementById("txt2");
+		var txt3 = document.getElementById("txt3");
+		var tab = document.getElementById("tab");
+		var Btn = document.getElementById("btn");
+		var oA = document.getElementsByClassName("sc"); 
+		var Box = document.getElementById("box");
+		Btn.onclick = function(){
+			var tdv = tab.children[0].children[1].cloneNode(true);
+			tdv.children[0].innerHTML = txt1.value;
+			tdv.children[1].innerHTML = txt2.value;
+			tdv.children[2].innerHTML = txt3.value;
+			tab.children[0].appendChild(tdv);
+		}
+		for(var i = 0 ; i < oA.length ; i ++){
+			oA[i].onclick = function(){
+				this.parentNode.parentNode.remove();
+			}
+		}
+		tab.onclick = function(evt){
+			var e = evt || window.event;
+			var target = e.target || e.srcElement;
+			if(target.nodeName == "TD"){
+				var inpu = document.createElement("input");
+				inpu.type = "text";
+				inpu.value = target.innerHTML;
+				target.innerHTML = "";
+				target.appendChild(inpu);
+				inpu.focus();
+				inpu.onblur = function(){
+				target.innerHTML = inpu.value;
+				}
+			}
+		}
+		tab.addEventListener("click",function(evt){
+			var e = evt || window.event;
+			var target = e.target || e.srcElement;
+			e.stopPropagation();
+			
+			if(target.className == "xq"){
+				Box.style.display = "block";
+				Box.style.left = e.pageX + "px";
+				Box.style.top = e.pageY + "px";
+			}
+		})
+		document.onclick = function(){
+			Box.style.display = "none";
+		}
+	</script>
+</html>
